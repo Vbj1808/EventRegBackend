@@ -4,7 +4,7 @@ const connectDb = require('./config/db');
 
 const app = express();
 
-//connecting to database
+//connect database
 connectDb();
 
 
