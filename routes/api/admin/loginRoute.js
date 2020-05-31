@@ -1,5 +1,5 @@
 const express = require('express'),
-      router = express.Router(),
+      loginRouter = express.Router(),
       bcrypt = require("bcryptjs"),
       jwt = require("jsonwebtoken");
 
@@ -16,7 +16,7 @@ const validateLogin = require("../../validation/adminLogin");
 // @route POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post("/adminlogin", (req,res)=>{
+loginRouter.post("/adminlogin", (req,res)=>{
     //form validation
     const { errors, isValid } = validateLogin(req.body);
 
@@ -73,3 +73,4 @@ router.post("/adminlogin", (req,res)=>{
         });
 });
 
+module.exports = loginRouter;
