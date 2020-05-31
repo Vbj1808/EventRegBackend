@@ -7,11 +7,11 @@ const keys = require('../../../config/keys');
 
 // Load admin login model
 
-const Admin = require("../../model/admin");
+const Admin = require("../../../model/admin");
 
 //Load input validation
 
-const validateLogin = require("../../validation/adminLogin");
+const validateLogin = require("../../../validation/adminLogin");
 
 // @route POST api/users/login
 // @desc Login user and return JWT token

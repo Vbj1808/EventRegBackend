@@ -27,7 +27,7 @@ app.use(passport.initialize());
 require("./auth/passport")(passport);
 
 //Routes
-app.use("/api/admin/loginRoute", admin );
+app.use("/api/admin/loginRoute",loginRoute);
 
 //port
 const port = process.env.PORT || 8082;
