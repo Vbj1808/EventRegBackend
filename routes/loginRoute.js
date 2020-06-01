@@ -1,16 +1,32 @@
 const express = require('express'),
-      loginRouter = express.Router(),
-      bcrypt = require("bcryptjs");
+    router = express.Router(),
+    authenticate = require("../authenticate"),
+    passport = require("passport");
+var Admin = require("../model/admin");
 
-// Load admin login model
+router.post("/login", passport.authenticate("local"), (req, res) => {
+    const token = authenticate.getToken({ _id: req.user._id });
+    res.cookie('token', token, { httpOnly: true });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ success: true, status: 'Login Successful!', token: token, userId: req.user._id });
+});
 
-const Admin = require("../model/admin");
+router.post("/signup",(req,res,next)=>{
+    console.log(req.body);
+  Admin.register(new Admin({ username: req.body.username }), req.body.password, (err, admin) => {
+    if (err) {
+      res.status = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({ err: err });
+    } else {
+      passport.authenticate("local")(req, res, () => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ success: true, status: 'Registration Successful!' });
+      });
+    }
+  });
+});
 
-
-
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
-
-
-module.exports = loginRouter;
+module.exports = router ;

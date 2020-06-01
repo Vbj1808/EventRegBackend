@@ -1,40 +1,38 @@
 const express = require('express'),
       bodyParser = require('body-parser'),
       passport = require("passport");
+      mongoose = require("mongoose");
+      config = require("./config");
+      path = require("path");
+      logger = require('morgan');
+      cookieParser = require("cookie-parser"),
+      adminRouter = require("./routes/loginRoute");
 
 var cors = require('cors');
+var app = express();
+app.use(cors());
+app.use(express.json());
 
-const connectDb = require('./config/db');
-
-const app = express();
-
-//added login route
-const loginRoute = require("./routes/api/admin/loginRoute");
-
-
-
-//Bodyparser middleware
-app.use(bodyParser.urlencoded({ extended: false}));
-app.use(bodyParser.json());
-
-//connect database
-connectDb();
-
-//cors
-app.use(cors({ origin: true, credentials: true}));
-
-app.use(express.json({extended: false}));
-app.get('/', (req,res) => res.send('Hello world'))
-
-//Passport middleware
 app.use(passport.initialize());
+app.use(passport.session());
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-//Passport config
-require("./auth/passport")(passport);
+app.use(logger('dev'));
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-//Routes
-app.use("/api/admin/loginRoute",loginRoute);
+var connect = mongoose.connect(config.mongoUrl, { useNewUrlParser: true });
 
+connect.then(() => {
+    console.log("Connected to Database");
+  })
+    .catch((err) => console.log(err));
+
+
+app.use("/admin",adminRouter);
 //port
 const port = process.env.PORT || 8082;
 app.listen(port, () => console.log(`Server running successfully on port ${port}`));
