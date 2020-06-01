@@ -2,12 +2,16 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       passport = require("passport");
 
+var cors = require('cors');
+
 const connectDb = require('./config/db');
 
 const app = express();
 
 //added login route
 const loginRoute = require("./routes/api/admin/loginRoute");
+
+
 
 //Bodyparser middleware
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -16,6 +20,8 @@ app.use(bodyParser.json());
 //connect database
 connectDb();
 
+//cors
+app.use(cors({ origin: true, credentials: true}));
 
 app.use(express.json({extended: false}));
 app.get('/', (req,res) => res.send('Hello world'))
