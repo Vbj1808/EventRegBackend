@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const EventSchema = new mongoose.Schema({
+const EventRegSchema = new mongoose.Schema({
     fullname: {
         type: String,
         required: true 
@@ -28,4 +28,27 @@ const EventSchema = new mongoose.Schema({
 
 }, {timestamps: true});
 
-module.exports = Event = mongoose.model('event', EventSchema);
+
+const CreateEventSchema = new Schema({
+    image: {
+        type: String,
+        required: true 
+    },
+    name:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    description:{
+        type: String,
+        required: true 
+    },
+    lastdate: {
+        type: Date,
+        required: true 
+    },
+    events: [EventRegSchema]
+
+}, {timestamps: true});
+
+module.exports = Event = mongoose.model('event', CreateEventSchema);
