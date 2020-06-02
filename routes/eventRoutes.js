@@ -12,8 +12,7 @@ var Event = require('../model/regForm');
 // @access Public 
 
 
-
-router.post('/createEvent', authenticate.verifyUser, (req,res,next)=> {
+router.post("/createEvent", authenticate.verifyAdmin, (req, res) => {
     Event.create(req.body)
         .then((event) => {
             
@@ -21,7 +20,7 @@ router.post('/createEvent', authenticate.verifyUser, (req,res,next)=> {
             res.setHeader("Content-Type", "application/json");
             res.json(event);
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
 });
 
 module.exports = router;
