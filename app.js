@@ -7,7 +7,8 @@ const express = require('express'),
       logger = require('morgan');
       cookieParser = require("cookie-parser"),
       adminRouter = require("./routes/loginRoute"),
-      eventRouter = require("./routes/eventRoutes");
+      eventRouter = require("./routes/eventRoutes"),
+      userRouter = require("./routes/userRoute");
 
 var cors = require('cors');
 var app = express();
@@ -42,6 +43,7 @@ connect.then(() => {
 
 app.use("/admin",adminRouter);
 app.use("/admin/dashboard/",eventRouter);
+app.use("/user", userRouter);
 //port
 const port = process.env.PORT || 8082;
 app.listen(port, () => console.log(`Server running successfully on port ${port}`));

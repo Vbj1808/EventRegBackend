@@ -11,6 +11,8 @@ var Event = require('../model/regForm');
 // @description tests event route
 // @access Public 
 
+
+
 router.post('/createEvent', authenticate.verifyUser, (req,res,next)=> {
     Event.create(req.body)
         .then((event) => {
