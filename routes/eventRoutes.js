@@ -1,20 +1,23 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
+var authenticate = require("../authenticate");
+var passport = require('passport');
 
 //Load event registration model
 
-const Event = require('../model/regForm');
+var Event = require('../model/regForm');
 
 // @route GET 
 // @description tests event route
 // @access Public 
 
-router.get('/test', (req,res)=> res.send('Event route testing!'));
-
-
-router.post('/createEvent', (req,res)=> {
-    Event.create(req.body)
-        .then(body => res.json({ msg: 'Event created successfully' }))
+router.post('/createEvent', authenticate.verifyAdmin, (req,res,next)=> {
+    Event.create({ image: req.body.image, name: req.body.name, description: req.body.description, lastdate: req.body.lastdate})
+        .then((event) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(event);
+        })
         .catch(err => res.status(400).json({ error: 'Unable to create an event'}))
 });
 
