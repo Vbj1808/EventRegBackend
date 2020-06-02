@@ -11,8 +11,15 @@ const express = require('express'),
 
 var cors = require('cors');
 var app = express();
-app.use(cors());
+
 app.use(express.json());
+
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true 
+}
+
+app.use(cors(corsOptions));
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -29,7 +29,7 @@ const EventRegSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 
-const CreateEventSchema = new Schema({
+const CreateEventSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true 
