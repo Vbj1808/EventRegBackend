@@ -51,7 +51,7 @@ const CreateEventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    events: [EventRegSchema]
+    eventreg: [EventRegSchema]
 
 }, {timestamps: true});
 
