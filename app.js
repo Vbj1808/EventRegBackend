@@ -8,7 +8,8 @@ const express = require('express'),
       cookieParser = require("cookie-parser"),
       adminRouter = require("./routes/loginRoute"),
       eventRouter = require("./routes/eventRoutes"),
-      userRouter = require("./routes/userRoute");
+      userRouter = require("./routes/userRoute"),
+      multer = require("multer");
 
 var cors = require('cors');
 var app = express();
