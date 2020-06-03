@@ -30,6 +30,28 @@ router.get('/:userId/:eventId/eventreg', (req,res,next) => {
     .catch((err) => next(err));
 })
 
+router.post('/:userId/:eventId/eventreg', (req,res,next) => {
+  Event.findById(req.params.eventId)
+    .then((event) => {
+      if(event != null){
+        event.eventreg.push(req.body);
+        event.save()
+        .then((event) => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(event);
+
+        }, (err)=> next(err));
+      }
+      else{
+        err = new Error('Event ' + req.params.eventId+ 'not found');
+        err.status = 404;
+        return next(err);
+      }
+    }, (err)=> next(err))
+    .catch((err) => next(err));
+})
+
 
 router.post("/login", passport.authenticate("user"), (req, res) => {
     const token = authenticate.getToken({ _id: req.user._id });
