@@ -12,45 +12,6 @@ router.get('/:userId/events', (req,res,next) => {
         .catch(err => res.status(400).json({ noevent: "no event"}));
 });
 
-router.get('/:userId/:eventId', (req,res,next) => {
-  Event.findById(req.params.eventId)
-    .then((event) => {
-      if(event != null){
-        res.statusCode = 200;
-        res.setHeader('Content-type', 'application/json');
-        res.json(event.eventreg);
-
-      }
-      else{
-        err = new Error('Event' + req.params.eventId + 'not found');
-        err.status = 404;
-        return next(err);
-      }
-    }, (err) => next(err))
-    .catch((err) => next(err));
-})
-
-router.post('/:eventId/eventReg', (req,res,next) => {
-  Event.findById(req.params.eventId)
-    .then((event) => {
-      if(event != null){
-        event.eventreg.push(req.body);
-        event.save()
-        .then((event) => {
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.json(event);
-
-        }, (err)=> next(err));
-      }
-      else{
-        err = new Error('Event ' + req.params.eventId+ 'not found');
-        err.status = 404;
-        return next(err);
-      }
-    }, (err)=> next(err))
-    .catch((err) => next(err));
-})
 
 
 router.post("/login", passport.authenticate("user"), (req, res) => {
@@ -77,5 +38,47 @@ router.post("/signup",(req,res,next)=>{
     }
   });
 });
+
+
+router.get('/:eventid/eventreg', (req,res,next) => {
+  Event.findById(req.params.eventid)
+    .then((event) => {
+      if(event != null){
+        res.statusCode = 200;
+        res.setHeader('Content-type', 'application/json');
+        res.json(event);
+
+      }
+      else{
+        err = new Error('Event' + req.params.eventId + 'not found');
+        err.status = 404;
+        return next(err);
+      }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+
+router.post('/:eventid/eventreg', (req,res,next) => {
+  Event.findById(req.params.eventId)
+    .then((event) => {
+      if(event != null){
+        event.eventreg.push(req.body);
+        event.save()
+        .then((event) => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(event);
+
+        }, (err)=> next(err));
+      }
+      else{
+        err = new Error('Event ' + req.params.eventId+ 'not found');
+        err.status = 404;
+        return next(err);
+      }
+    }, (err)=> next(err))
+    .catch((err) => next(err));
+})
+
 
 module.exports = router;
