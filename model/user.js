@@ -6,10 +6,7 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    mobile : {
-        type : String,
-        required:true
-    },
+    
     dob : {
         type : Date,
         required : true
@@ -17,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     email : {
         required : true,
         type : String
+    },
+    mobile : {
+        type : String,
+        required:true
     }
     
 }, {timestamps: true });

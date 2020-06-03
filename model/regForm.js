@@ -47,6 +47,10 @@ const CreateEventSchema = new mongoose.Schema({
         type: Date,
         required: true 
     },
+    EntryFee: {
+        type: String,
+        required: true
+    },
     events: [EventRegSchema]
 
 }, {timestamps: true});
