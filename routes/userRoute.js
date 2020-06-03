@@ -6,11 +6,52 @@ var User = require("../model/user");
 var passport = require("passport");
 var authenticate = require("../authenticate");
 
-router.get('/events', (req,res,next) => {
+router.get('/:userId/events', (req,res,next) => {
     Event.find()
         .then(events => res.json(events))
         .catch(err => res.status(400).json({ noevent: "no event"}));
 });
+
+router.get('/:userId/:eventId/eventreg', (req,res,next) => {
+  Event.findById(req.params.eventId)
+    .then((event) => {
+      if(event != null){
+        res.statusCode = 200;
+        res.setHeader('Content-type', 'application/json');
+        res.json(event.eventreg);
+
+      }
+      else{
+        err = new Error('Event' + req.params.eventId + 'not found');
+        err.status = 404;
+        return next(err);
+      }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
+
+router.post('/:userId/:eventId/eventreg', (req,res,next) => {
+  Event.findById(req.params.eventId)
+    .then((event) => {
+      if(event != null){
+        event.eventreg.push(req.body);
+        event.save()
+        .then((event) => {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(event);
+
+        }, (err)=> next(err));
+      }
+      else{
+        err = new Error('Event ' + req.params.eventId+ 'not found');
+        err.status = 404;
+        return next(err);
+      }
+    }, (err)=> next(err))
+    .catch((err) => next(err));
+})
+
 
 router.post("/login", passport.authenticate("user"), (req, res) => {
     const token = authenticate.getToken({ _id: req.user._id });
@@ -22,7 +63,7 @@ router.post("/login", passport.authenticate("user"), (req, res) => {
 
 router.post("/signup",(req,res,next)=>{
     console.log(req.body);
-  User.register(new User({ username: req.body.username ,name : req.body.name,mobile : req.body.mobile,dob : req.body.dob}), req.body.password, (err, user) => {
+  User.register(new User({ name : req.body.name,username: req.body.username ,dob : req.body.dob, email: req.body.email,mobile : req.body.mobile}), req.body.password, (err, user) => {
     if (err) {
       res.status = 500;
       res.setHeader('Content-Type', 'application/json');
