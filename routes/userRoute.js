@@ -12,7 +12,7 @@ router.get('/:userId/events', (req,res,next) => {
         .catch(err => res.status(400).json({ noevent: "no event"}));
 });
 
-router.get('/:userId/:eventId/eventreg', (req,res,next) => {
+router.get('/:userId/:eventId', (req,res,next) => {
   Event.findById(req.params.eventId)
     .then((event) => {
       if(event != null){
@@ -30,7 +30,7 @@ router.get('/:userId/:eventId/eventreg', (req,res,next) => {
     .catch((err) => next(err));
 })
 
-router.post('/:userId/:eventId/eventreg', (req,res,next) => {
+router.post('/:eventId/eventReg', (req,res,next) => {
   Event.findById(req.params.eventId)
     .then((event) => {
       if(event != null){
