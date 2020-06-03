@@ -10,6 +10,7 @@
   "author": "abcd",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.3.1",

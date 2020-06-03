@@ -26,31 +26,21 @@ var Event = require('../model/regForm');
 
 
 router.post("/createEvent", authenticate.verifyAdmin, upload.single("image"), (req, res) => {
-    const file = req.file;
-    if (file) {
-        console.log(req.file);
-    }
-    // res.render('image', {
-    //     path: req.file.path
-    //   });
     const host = req.host;
-    const filePath = req.protocol + "://" + host + '/' + req.file.filename;
-    res.send(filePath);
-    // var img = fs.readFileSync(req.file.path);
-    // var encode_image = img.toString('base64');
-    // // Define a JSONobject for the image att
-    // var event = new Event(req.body);
-    // event.image.data = new Buffer(encode_image, 'base64');
-    // event.image.contentType = req.file.mimetype;
-    // console.log(event);
-    // Event.create(req.body)
-    //     .then((event) => {
+    const filePath = req.protocol + "://" + host + ":" +req.socket.localPort +'/' + req.file.filename;
+    var event = new Event(req.body);
+    event.imageUrl = filePath
+    console.log(event);
+    Event.create(event)
+        .then((event) => {
 
-    //         res.statusCode = 200;
-    //         res.setHeader("Content-Type", "application/json");
-    //         res.json(event);
-    //     })
-    //     .catch((err) => console.log(err));
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(event);
+        })
+        .catch((err) => console.log(err));
 });
+
+
 
 module.exports = router;
