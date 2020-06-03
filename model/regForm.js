@@ -31,8 +31,8 @@ const EventRegSchema = new mongoose.Schema({
 
 const CreateEventSchema = new mongoose.Schema({
     image: {
-        type: String,
-        required: true 
+        data : Buffer,
+        contentType : String
     },
     name:{
         type: String,
