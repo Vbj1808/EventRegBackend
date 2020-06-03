@@ -33,7 +33,7 @@ router.post("/createEvent", authenticate.verifyAdmin, upload.single("image"), (r
     console.log(event);
     Event.create(event)
         .then((event) => {
-
+            console.log(event);
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
             res.json(event);
