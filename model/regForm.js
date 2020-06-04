@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
 
 const EventRegSchema = new mongoose.Schema({
+    
+    uniqueId: {
+        type: Number,
+        required: true,
+        unique: true 
+    },
+    
     fullname: {
         type: String,
         required: true 
     },
+
     mobile: {
         type: Number,
         required: true
@@ -12,8 +20,9 @@ const EventRegSchema = new mongoose.Schema({
     email:{
         type: String,
         required: true
+        
     },
-    idimg: {
+    image: {
         type: String,
         required: true
     },
@@ -21,7 +30,7 @@ const EventRegSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    count:{
+    noofticket:{
         type: Number,
         required: true
     }, 

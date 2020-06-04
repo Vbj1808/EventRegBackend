@@ -59,7 +59,7 @@ router.get('/:eventid/eventreg', (req,res,next) => {
 })
 
 router.post('/:eventid/eventreg', (req,res,next) => {
-  Event.findById(req.params.eventId)
+  Event.findById(req.params.eventid)
     .then((event) => {
       if(event != null){
         event.eventreg.push(req.body);
@@ -72,7 +72,7 @@ router.post('/:eventid/eventreg', (req,res,next) => {
         }, (err)=> next(err));
       }
       else{
-        err = new Error('Event ' + req.params.eventId+ 'not found');
+        err = new Error('Event ' + req.params.eventid+ 'not found');
         err.status = 404;
         return next(err);
       }
