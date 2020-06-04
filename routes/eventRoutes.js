@@ -41,6 +41,11 @@ router.post("/createEvent", authenticate.verifyAdmin, upload.single("image"), (r
         .catch((err) => console.log(err));
 });
 
+router.get('/events', (req,res,next) => {
+    Event.find()
+        .then(events => res.json(events))
+        .catch(err => res.status(400).json({ noevent: "no event"}));
+});
 
 
 

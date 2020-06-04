@@ -81,4 +81,8 @@ router.post('/:eventid/eventreg', (req,res,next) => {
 })
 
 
+// router.get('/:eventid/eventreg/:regid', (req,res,next) => {
+//   Event.findById(req.params.dishId)
+// })
+
 module.exports = router;
