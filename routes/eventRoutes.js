@@ -49,5 +49,22 @@ router.get('/events', (req,res,next) => {
 
 
 
+router.get('/:eventid/eventreg', (req,res,next) => {
+  Event.findById(req.params.eventid)
+    .then((event) => {
+      if(event != null){
+        res.statusCode = 200;
+        res.setHeader('Content-type', 'application/json');
+        res.json(event);
+
+      }
+      else{
+        err = new Error('Event' + req.params.eventId + 'not found');
+        err.status = 404;
+        return next(err);
+      }
+    }, (err) => next(err))
+    .catch((err) => next(err));
+})
 
 module.exports = router;
