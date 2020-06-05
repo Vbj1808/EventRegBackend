@@ -48,7 +48,7 @@ router.get('/events', (req,res,next) => {
 });
 
 
-router.put("/:eventid", authenticate.verifyAdmin, upload.single("image"), (req, res) => {
+router.put("/:eventid/update", upload.single("image"), (req, res) => {
   const host = req.host;
   const filePath = req.protocol + "://" + host + ":" +req.socket.localPort +'/' + req.file.filename;
   var event = new Event(req.body);
