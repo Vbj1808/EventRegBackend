@@ -48,6 +48,12 @@ router.get('/events', (req,res,next) => {
 });
 
 
+router.delete('/:eventid', (req,res,next) => {
+  Event.findByIdAndRemove(req.params.id, req.body)
+    .then(event => res.json({ msg: 'Event Entry Deleted Successfully'}))
+    .catch(err => res.status(404).json({error: 'No such event'}))
+});
+
 
 router.get('/:eventid/eventreg', (req,res,next) => {
   Event.findById(req.params.eventid)
