@@ -48,11 +48,7 @@ router.get('/events', (req,res,next) => {
 });
 
 
-router.delete('/:eventid', (req,res,next) => {
-  Event.findByIdAndRemove(req.params.id, req.body)
-    .then(event => res.json({ msg: 'Event Entry Deleted Successfully'}))
-    .catch(err => res.status(404).json({error: 'No such event'}))
-});
+
 
 
 router.put('/:eventid', (req,res,next) => {
@@ -61,6 +57,12 @@ router.put('/:eventid', (req,res,next) => {
     .catch(err => res.status(400).json({error: 'Unable to update'}))
 });
 
+router.delete("/:eventid", (req, res,next) => {
+  // console.log(req.params.taskId);
+  Event.findByIdAndRemove(req.params.eventid,req.body)
+      .then(Event => res.json({msgs: 'Event entry deleted successfully'}))
+      .catch(err => res.status(400).json({ error: 'Unable to update the database'}));
+});
 
 router.get('/:eventid/eventreg', (req,res,next) => {
   Event.findById(req.params.eventid)
