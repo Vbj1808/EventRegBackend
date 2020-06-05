@@ -48,14 +48,28 @@ router.get('/events', (req,res,next) => {
 });
 
 
-
-
-
-router.put('/:eventid', (req,res,next) => {
-  Event.findByIdAndUpdate(req.params.id, req.body)
-    .then(event => res.json({ msg: 'Updated Successfully'}))
-    .catch(err => res.status(400).json({error: 'Unable to update'}))
+router.put("/:eventid", authenticate.verifyAdmin, upload.single("image"), (req, res) => {
+  const host = req.host;
+  const filePath = req.protocol + "://" + host + ":" +req.socket.localPort +'/' + req.file.filename;
+  var event = new Event(req.body);
+  event.imageUrl = filePath
+  console.log(event);
+  Event.findByIdAndUpdate(event)
+      .then((event) => {
+          console.log(event);
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(event);
+      })
+      .catch((err) => console.log(err));
 });
+
+
+// router.put('/:eventid', (req,res,next) => {
+//   Event.findByIdAndUpdate(req.params.id, req.body)
+//     .then(event => res.json({ msg: 'Updated Successfully'}))
+//     .catch(err => res.status(400).json({error: 'Unable to update'}))
+// });
 
 router.delete("/:eventid", (req, res,next) => {
   // console.log(req.params.taskId);
