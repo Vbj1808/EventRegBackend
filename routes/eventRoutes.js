@@ -55,6 +55,13 @@ router.delete('/:eventid', (req,res,next) => {
 });
 
 
+router.put('/:eventid', (req,res,next) => {
+  Event.findByIdAndUpdate(req.params.id, req.body)
+    .then(event => res.json({ msg: 'Updated Successfully'}))
+    .catch(err => res.status(400).json({error: 'Unable to update'}))
+});
+
+
 router.get('/:eventid/eventreg', (req,res,next) => {
   Event.findById(req.params.eventid)
     .then((event) => {
