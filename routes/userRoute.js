@@ -50,7 +50,7 @@ router.get('/:eventid/eventreg', (req,res,next) => {
 
       }
       else{
-        err = new Error('Event' + req.params.eventId + 'not found');
+        err = new Error('Event' + req.params.eventid + 'not found');
         err.status = 404;
         return next(err);
       }
