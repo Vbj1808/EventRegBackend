@@ -1,7 +1,9 @@
+//require mongoose package
 const mongoose = require('mongoose');
 
+//event registration schema to register for an event
 const EventRegSchema = new mongoose.Schema({
-    
+    //unique registration id for an user
     uniqueid: {
         type: Number,
         required: true,
@@ -39,7 +41,7 @@ const EventRegSchema = new mongoose.Schema({
 
 }, {timestamps: true});
 
-
+//create event schema to create an event
 const CreateEventSchema = new mongoose.Schema({
     imageUrl: {
         type : String,
@@ -62,8 +64,10 @@ const CreateEventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    //contains an array of registered users for a particular event
     eventreg: [EventRegSchema]
 
 }, {timestamps: true});
 
+//export
 module.exports = Event = mongoose.model('event', CreateEventSchema);
