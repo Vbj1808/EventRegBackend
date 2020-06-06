@@ -48,22 +48,11 @@ router.get('/events', (req,res,next) => {
 });
 
 
-router.put("/:eventid/update", upload.single("image"), (req, res) => {
-  const host = req.host;
-  const filePath = req.protocol + "://" + host + ":" +req.socket.localPort +'/' + req.file.filename;
-  var event = new Event(req.body);
-  event.imageUrl = filePath
-  console.log(event);
-  Event.findByIdAndUpdate(event)
-      .then((event) => {
-          console.log(event);
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(event);
-      })
-      .catch((err) => console.log(err));
+router.put('/:eventid/update', (req,res) => {
+  Event.findByIdAndUpdate(req.params.eventid, req.body)
+      .then(event => res.json({ msg: 'Updated successfully'}))
+      .catch(err => res.status(400).json({ error: 'Unable to update the database'}));
 });
-
 
 // router.put('/:eventid', (req,res,next) => {
 //   Event.findByIdAndUpdate(req.params.id, req.body)
@@ -88,7 +77,7 @@ router.get('/:eventid/eventreg', (req,res,next) => {
 
       }
       else{
-        err = new Error('Event' + req.params.eventId + 'not found');
+        err = new Error('Event' + req.params.eventid + 'not found');
         err.status = 404;
         return next(err);
       }
