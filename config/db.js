@@ -1,9 +1,12 @@
+//require mongoose package
 const mongoose = require('mongoose');
-
+//require config package
 const config = require('config');
-
+//getting mongodb atlas uri
 const db = config.get('mongoUri');
 
+
+//connecting to mongodb atlas with the help of URI
 const connectDb = async () => {
     try{
         await mongoose.connect(
@@ -22,4 +25,5 @@ const connectDb = async () => {
     }
 };
 
+//export 
 module.exports =  connectDb;
