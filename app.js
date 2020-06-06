@@ -1,3 +1,4 @@
+//require packages
 const express = require('express'),
       bodyParser = require('body-parser'),
       passport = require("passport");
@@ -11,18 +12,20 @@ const express = require('express'),
       userRouter = require("./routes/userRoute"),
       multer = require("multer");
 
+
+//require cors package
 var cors = require('cors');
+//using express
 var app = express();
-
+//using express.json instead of body parser
 app.use(express.json());
-
+//using cors
 var corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true 
 }
-
 app.use(cors(corsOptions));
-
+//using passport
 app.use(passport.initialize());
 app.use(passport.session());
 // view engine setup
@@ -33,17 +36,18 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-var connect = mongoose.connect(config.mongoUrl, { useNewUrlParser: true });
-
+//connect to mongodb atlas
+var connect = mongoose.connect(config.mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 connect.then(() => {
     console.log("Connected to Database");
   })
     .catch((err) => console.log(err));
 
-
+//require admin router
 app.use("/admin",adminRouter);
+//require event dashboard on admin side route
 app.use("/admin/dashboard/",eventRouter);
+//require user side route
 app.use("/user", userRouter);
 //port
 const port = process.env.PORT || 8082;

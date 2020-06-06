@@ -1,12 +1,22 @@
+//require passport package
 const passport = require('passport');
+//require passport local strategy 
 const LocalStrategy = require('passport-local').Strategy;
+//require admin model
 const Admin = require("./model/admin");
+//require jwt strategy
 const JwtStrategy = require('passport-jwt').Strategy;
+//require extract jwt
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+// used to create, sign, and verify tokens
+const jwt = require('jsonwebtoken'); 
+//require user model
 const User = require("./model/user");
+//require config file
 const config = require('./config.js');
 
+
+//using passport to authenticate admin login
 passport.use("admin",new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
@@ -14,6 +24,7 @@ passport.use("admin",new LocalStrategy({
 passport.serializeUser(Admin.serializeUser());
 passport.deserializeUser(Admin.deserializeUser());
 
+//using passport to authenticate user login
 passport.use("user",new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
@@ -21,6 +32,8 @@ passport.use("user",new LocalStrategy({
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+//using jwt to authenticate
 exports.getToken = function (admin) {
     return jwt.sign(admin, config.secretKey,
         { expiresIn: 3600 });
@@ -47,4 +60,5 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
     })
 );
 
+//export
 exports.verifyAdmin = passport.authenticate('jwt', { session: false });
