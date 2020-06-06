@@ -5,7 +5,9 @@ const EventRegSchema = new mongoose.Schema({
     uniqueid: {
         type: Number,
         required: true,
-        unique: true 
+        unique: true,
+        sparse: true
+        
     },
     
     fullname: {
