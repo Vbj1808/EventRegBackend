@@ -30,7 +30,7 @@ var Event = require('../model/regForm');
 // @description create event route
 router.post("/createEvent", authenticate.verifyAdmin, upload.single("image"), (req, res) => {
     const host = req.host;
-    const filePath = req.protocol + "://" + host + ":" +req.socket.localPort +'/' + req.file.filename;
+    const filePath = req.protocol + "://" + host + '/' + req.file.filename;
     var event = new Event(req.body);
     event.imageUrl = filePath
     console.log(event);
