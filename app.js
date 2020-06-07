@@ -14,15 +14,30 @@ const express = require('express'),
 
 
 //require cors package
+
+
 var cors = require('cors');
 //using express
 var app = express();
 //using express.json instead of body parser
 app.use(express.json());
-//using cors
+// //using cors
+// var corsOptions = {
+//   origin: 'https://stackhack-er.herokuapp.com',
+//   credentials: true 
+// }
+
+var whitelist = ['http://stackhack-er.herokuapp.com', 'https://stackhack-er.herokuapp.com']
 var corsOptions = {
-  origin: 'https://stackhack-er.herokuapp.com',
-  credentials: true 
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials : true
+  
 }
 app.use(cors(corsOptions));
 //using passport
