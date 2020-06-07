@@ -21,7 +21,7 @@ var app = express();
 app.use(express.json());
 //using cors
 var corsOptions = {
-  origin: 'https://stackhackevent.herokuapp.com',
+  origin: 'https://stackhack-er.herokuapp.com',
   credentials: true 
 }
 app.use(cors(corsOptions));
